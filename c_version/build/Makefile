@@ -6,7 +6,6 @@ ASRC =
 OPT = s
 
 MAKEFILE = Makefile
-# AVR (extended) COFF requires stabs, plus an avr-objcopy run.
 DEBUG = stabs
 CSTANDARD = -std=gnu99
 CDEFS =
@@ -15,7 +14,6 @@ CINCS =
 CDEBUG = -g$(DEBUG)
 CWARN = -Wall -Wstrict-prototypes
 CTUNING = -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
-#CEXTRA = -Wa,-adhlns=$(<:.c=.lst)
 CFLAGS = $(CDEBUG) $(CDEFS) $(CINCS) -O$(OPT) $(CWARN) $(CSTANDARD) $(CEXTRA)
 
 PRINTF_LIB_MIN = -Wl,-u,vfprintf -lprintf_min
@@ -48,19 +46,12 @@ AVRDUDE = avrdude
 REMOVE = rm -f
 MV = mv -f
 
-# Define all object files.
 OBJ = $(SRC:.c=.o) $(ASRC:.S=.o) 
-
-# Define all listing files.
 LST = $(ASRC:.S=.lst) $(SRC:.c=.lst)
-
-# Combine all necessary flags and optional flags.
-# Add target processor to flags.
 ALL_CFLAGS = -mmcu=$(MCU) -I. $(CFLAGS)
 ALL_ASFLAGS = -mmcu=$(MCU) -I. -x assembler-with-cpp $(ASFLAGS)
 
 
-# Default target.
 all: build
 
 build: elf hex eep
@@ -115,24 +106,16 @@ extcoff: $(TARGET).elf
 $(TARGET).elf: $(OBJ)
 	$(CC) $(ALL_CFLAGS) $(OBJ) --output $@ $(LDFLAGS)
 
-
-# Compile: create object files from C source files.
 .c.o:
 	$(CC) -c $(ALL_CFLAGS) $< -o $@ 
 
-
-# Compile: create assembler files from C source files.
 .c.s:
 	$(CC) -S $(ALL_CFLAGS) $< -o $@
 
-
-# Assemble: create object files from assembler source files.
 .S.o:
 	$(CC) -c $(ALL_ASFLAGS) $< -o $@
 
 
-
-# Target: clean project.
 clean:
 	$(REMOVE) $(TARGET).hex $(TARGET).eep $(TARGET).cof $(TARGET).elf \
 	$(TARGET).map $(TARGET).sym $(TARGET).lss \
