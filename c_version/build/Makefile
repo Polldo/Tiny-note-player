@@ -1,10 +1,3 @@
-# Hey Emacs, this is a -*- makefile -*-
-
-# AVR-GCC Makefile template, derived from the WinAVR template (which
-# is public domain), believed to be neutral to any flavor of "make"
-# (GNU make, BSD make, SysV make)
-
-
 MCU = attiny85
 FORMAT = ihex
 TARGET = main
@@ -12,27 +5,12 @@ SRC = ../src/$(TARGET).c ../src/notes_player.c
 ASRC = 
 OPT = s
 
-# Name of this Makefile (used for "make depend").
 MAKEFILE = Makefile
-
-# Debugging format.
-# Native formats for AVR-GCC's -g are stabs [default], or dwarf-2.
 # AVR (extended) COFF requires stabs, plus an avr-objcopy run.
 DEBUG = stabs
-
-# Compiler flag to set the C Standard level.
-# c89   - "ANSI" C
-# gnu89 - c89 plus GCC extensions
-# c99   - ISO C99 standard (not yet fully implemented)
-# gnu99 - c99 plus GCC extensions
 CSTANDARD = -std=gnu99
-
-# Place -D or -U options here
 CDEFS =
-
-# Place -I options here
 CINCS =
-
 
 CDEBUG = -g$(DEBUG)
 CWARN = -Wall -Wstrict-prototypes
@@ -40,47 +18,17 @@ CTUNING = -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
 #CEXTRA = -Wa,-adhlns=$(<:.c=.lst)
 CFLAGS = $(CDEBUG) $(CDEFS) $(CINCS) -O$(OPT) $(CWARN) $(CSTANDARD) $(CEXTRA)
 
-
-#ASFLAGS = -Wa,-adhlns=$(<:.S=.lst),-gstabs 
-
-
-#Additional libraries.
-
-# Minimalistic printf version
 PRINTF_LIB_MIN = -Wl,-u,vfprintf -lprintf_min
 
-# Floating point printf version (requires MATH_LIB = -lm below)
 PRINTF_LIB_FLOAT = -Wl,-u,vfprintf -lprintf_flt
 
 PRINTF_LIB = 
-
-# Minimalistic scanf version
 SCANF_LIB_MIN = -Wl,-u,vfscanf -lscanf_min
-
-# Floating point + %[ scanf version (requires MATH_LIB = -lm below)
 SCANF_LIB_FLOAT = -Wl,-u,vfscanf -lscanf_flt
-
 SCANF_LIB = 
-
 MATH_LIB = -lm
-
-# External memory options
-
-# 64 KB of external RAM, starting after internal RAM (ATmega128!),
-# used for variables (.data/.bss) and heap (malloc()).
-#EXTMEMOPTS = -Wl,--section-start,.data=0x801100,--defsym=__heap_end=0x80ffff
-
-# 64 KB of external RAM, starting after internal RAM (ATmega128!),
-# only used for heap (malloc()).
-#EXTMEMOPTS = -Wl,--defsym=__heap_start=0x801100,--defsym=__heap_end=0x80ffff
-
 EXTMEMOPTS =
-
-#LDMAP = $(LDFLAGS) -Wl,-Map=$(TARGET).map,--cref
 LDFLAGS = $(EXTMEMOPTS) $(LDMAP) $(PRINTF_LIB) $(SCANF_LIB) $(MATH_LIB)
-
-
-# Programming support using avrdude. Settings and variables.
 
 AVRDUDE_PROGRAMMER = stk500
 AVRDUDE_PORT = /dev/ttyS0
@@ -88,24 +36,8 @@ AVRDUDE_PORT = /dev/ttyS0
 AVRDUDE_WRITE_FLASH = -U flash:w:$(TARGET).hex
 #AVRDUDE_WRITE_EEPROM = -U eeprom:w:$(TARGET).eep
 
-
-# Uncomment the following if you want avrdude's erase cycle counter.
-# Note that this counter needs to be initialized first using -Yn,
-# see avrdude manual.
-#AVRDUDE_ERASE_COUNTER = -y
-
-# Uncomment the following if you do /not/ wish a verification to be
-# performed after programming the device.
-#AVRDUDE_NO_VERIFY = -V
-
-# Increase verbosity level.  Please use this when submitting bug
-# reports about avrdude. See <http://savannah.nongnu.org/projects/avrdude> 
-# to submit bug reports.
-#AVRDUDE_VERBOSE = -v -v
-
 AVRDUDE_BASIC = -p $(MCU) -P $(AVRDUDE_PORT) -c $(AVRDUDE_PROGRAMMER)
 AVRDUDE_FLAGS = $(AVRDUDE_BASIC) $(AVRDUDE_NO_VERIFY) $(AVRDUDE_VERBOSE) $(AVRDUDE_ERASE_COUNTER)
-
 
 CC = avr-gcc
 OBJCOPY = avr-objcopy
@@ -143,9 +75,6 @@ sym: $(TARGET).sym
 # Program the device.  
 program: $(TARGET).hex $(TARGET).eep
 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH) $(AVRDUDE_WRITE_EEPROM)
-
-
-
 
 # Convert ELF to COFF for use in debugging / simulating in AVR Studio or VMLAB.
 COFFCONVERT=$(OBJCOPY) --debugging \
