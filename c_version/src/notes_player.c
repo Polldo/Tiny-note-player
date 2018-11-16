@@ -1,3 +1,10 @@
+//----------------------------------------
+//
+//		author: Paolo Calao			
+//		mail:	paolo.calao@gmail.com
+//		
+//----------------------------------------
+
 #include "notes_player.h"
 
 #define PIN_SPEAKER DDB0

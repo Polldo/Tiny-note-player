@@ -1,3 +1,10 @@
+//----------------------------------------
+//
+//		author: Paolo Calao			
+//		mail:	paolo.calao@gmail.com
+//		
+//----------------------------------------
+
 #include <avr/io.h>
 #include "notes_player.h"
 #include "globals.h"

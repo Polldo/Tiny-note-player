@@ -1,3 +1,10 @@
+//----------------------------------------
+//
+//		author: Paolo Calao			
+//		mail:	paolo.calao@gmail.com
+//		
+//----------------------------------------
+
 #ifndef NOTES_H
 #define NOTES_H
 

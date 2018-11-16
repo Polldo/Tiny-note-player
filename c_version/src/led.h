@@ -1,3 +1,10 @@
+//----------------------------------------
+//
+//		author: Paolo Calao			
+//		mail:	paolo.calao@gmail.com
+//		
+//----------------------------------------
+
 #ifndef LED_H
 #define LED_H
 
